@@ -34,7 +34,7 @@ module Unimicro
     end
 
     def build_uri(path, query_params)
-      uri = URI.join(@endpoint, path)
+      uri = URI.join(@api_endpoint, path)
       uri.query = URI.encode_www_form(query_params) if query_params
       uri
     end

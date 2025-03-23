@@ -29,7 +29,8 @@ Before using the client, you'll need to configure the endpoint and authenticatio
 
 ```ruby
 Unimicro.configure do |config|
-  config.endpoint = 'https://example.net/api/v1' # The API endpoint URL
+  config.api_endpoint = 'https://example.net/' # The API endpoint URL
+  config.identity_endpoint = 'https://login.example.net/' # The Identity endpoint URL
   config.client_id = 'your-client-id'            # Your client ID
   config.company_key = 'your-company-key'        # Your client ID
   config.certificate_path = '/path/to/your/certificate.p12'  # Path to the client certificate

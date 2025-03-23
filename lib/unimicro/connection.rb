@@ -11,12 +11,12 @@ require 'base64'
 module Unimicro
   # Defines methods to retrieve token
   class Connection
-    TOKEN_URL = 'https://test-login.unimicro.no/connect/token'
-
     def initialize(options)
       @client_id = options[:client_id]
       @certificate_path = options[:certificate_path]
       @certificate_password = options[:certificate_password]
+      @identity_endpoint = options[:identity_endpoint]
+      @token_url = build_token_url
     end
 
     def token
@@ -53,7 +53,7 @@ module Unimicro
       {
         iss: @client_id,
         sub: @client_id,
-        aud: TOKEN_URL,
+        aud: @token_url,
         jti: SecureRandom.uuid,
         iat: now,
         exp: now + 300
@@ -61,7 +61,7 @@ module Unimicro
     end
 
     def request_token(jwt)
-      uri = URI.parse(TOKEN_URL)
+      uri = URI.parse(@token_url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
 
@@ -71,6 +71,15 @@ module Unimicro
 
       res = http.request(request)
       JSON.parse(res.body)
+    end
+
+    def build_token_url
+      uri = URI.parse(@identity_endpoint)
+
+      # Ensure the scheme is available
+      raise ConfigurationError, 'Invalid identity endpoint: Missing scheme (http/https)' unless uri.scheme
+
+      URI::Generic.build(scheme: uri.scheme, host: uri.host, path: '/connect/token').to_s
     end
 
     def encode_form_data(jwt)

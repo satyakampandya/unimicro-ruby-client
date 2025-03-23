@@ -4,7 +4,8 @@ module Unimicro
   # Defines constants and methods related to configuration.
   module Configuration
     VALID_OPTIONS_KEYS = %i[
-      endpoint
+      api_endpoint
+      identity_endpoint
       company_key
       client_id
       certificate_path

@@ -10,13 +10,14 @@ module Unimicro
     include Unimicro::Request
     include Unimicro::Resources::Customers
 
-    attr_reader :connection, :endpoint, :options, :company_key
+    attr_reader :connection, :api_endpoint, :identity_endpoint, :options, :company_key
 
     def initialize(options = {})
       @options = options
       validate_configuration
+      @identity_endpoint = options[:identity_endpoint]
       @company_key = options[:company_key] || ENV.fetch('UNIMICO_COMPANY_KEY', nil)
-      @endpoint = options[:endpoint] || ENV.fetch('UNIMICRO_API_ENDPOINT', nil)
+      @api_endpoint = options[:api_endpoint] || ENV.fetch('UNIMICRO_API_ENDPOINT', nil)
       @connection = Unimicro::Connection.new(options)
     end
 
@@ -31,7 +32,7 @@ module Unimicro
     end
 
     def required_configurations
-      %i[endpoint company_key client_id certificate_path certificate_password]
+      %i[api_endpoint identity_endpoint company_key client_id certificate_path certificate_password]
     end
   end
 end
