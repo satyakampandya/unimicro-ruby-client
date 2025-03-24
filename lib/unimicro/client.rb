@@ -9,6 +9,10 @@ module Unimicro
   class Client
     include Unimicro::Request
     include Unimicro::Resources::Customers
+    include Unimicro::Resources::Employees
+    include Unimicro::Resources::Orders
+    include Unimicro::Resources::Projects
+    include Unimicro::Resources::WageTypes
 
     attr_reader :options, :api_endpoint, :identity_endpoint, :company_key,
                 :client_id, :certificate_path, :certificate_password, :connection

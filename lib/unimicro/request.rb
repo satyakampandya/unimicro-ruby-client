@@ -23,6 +23,14 @@ module Unimicro
       request(:delete, path, options)
     end
 
+    # Utility method for URL encoding of a string.
+    # Copied from https://ruby-doc.org/stdlib-2.7.0/libdoc/erb/rdoc/ERB/Util.html
+    #
+    # @return [String]
+    def url_encode(url)
+      url.to_s.b.gsub(/[^a-zA-Z0-9_\-.~]/n) { |m| sprintf('%%%02X', m.unpack1('C')) } # rubocop:disable Style/FormatString
+    end
+
     private
 
     def request(method, path, options = {})
